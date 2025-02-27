@@ -1,0 +1,11 @@
+{
+  "name": "missingpersonsystem",
+  "version": "1.0.0",
+  "description": "App that recognizes faces",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cri",
+  "license": "ISC"
+}
