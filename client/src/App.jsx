@@ -1,7 +1,11 @@
+import React from "react";
+import Home from "./components/Home";
+import Scan from "./components/Scan";
+
 function App() {
   return (
     <div className="App">
-      <h1>MissingPersonSystem</h1>
+      <Scan/>
     </div>
   );
 }
