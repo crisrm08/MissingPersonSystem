@@ -7,7 +7,7 @@ function Home(){
     return(
         <div>
             <Header/>
-            <main>
+            <main className="home-main">
                 <img src="/images/homeIMG.svg" alt="homeIMG" />
                 <Button name="Start Scan"/>
 
