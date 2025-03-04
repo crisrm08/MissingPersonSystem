@@ -1,0 +1,9 @@
+.switch-page-button{
+    font-size: larger;
+    background-color: #3A6EA5;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
