@@ -1,8 +1,9 @@
 import React from "react";
+import "../css/button.css"
 
 function Button(props){
     return(
-        <button>{props.name}</button>
+        <button className="switch-page-button">{props.name}</button>
     );
 };
 
