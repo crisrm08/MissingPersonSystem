@@ -3,13 +3,14 @@ import Header from "./Header";
 import Button from "./Button";
 import '../css/home.css'
 
-function Home(){
+function Home(props){
+
     return(
         <div>
             <Header/>
             <main className="home-main">
                 <img src="/images/homeIMG.svg" alt="homeIMG" />
-                <Button name="Start Scan"/>
+                <Button onNext={props.onStart} name="Start Scan"/>
 
                 <p>
                     Este proyecto es un sistema de reconocimiento facial <br /> diseñado para identificar personas desaparecidas o <br /> buscadas mediante
