@@ -5,7 +5,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import '../css/scan.css'
 
 
-function Scan(){
+function Scan(props){
     return(
         <div>
             <Header/>
@@ -25,7 +25,7 @@ function Scan(){
                     <div>
                         <label htmlFor="nombre">Nombre:</label>
                         <input type="text" id="nombre" />
-                    </div>
+                    </div> 
                     
                     <div>
                         <label htmlFor="ID">ID:</label>
@@ -46,7 +46,7 @@ function Scan(){
                     </div>
                     
                     <div className="search-button">
-                        <Button name="Search"/>
+                        <Button onNext={props.onSearch} name="Search"/>
                     </div>
                 </div>
 
