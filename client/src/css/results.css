@@ -1,0 +1,86 @@
+.main-results {
+    display: flex;
+    justify-content: space-between; /* Mantiene la imagen y el formulario en línea */
+    align-items: center;
+    padding: 20px;
+    gap: 40px; /* Espacio entre imagen y formulario */
+  }
+  
+  /* Contenedor de la imagen otorgada */
+  .image-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .result-image {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+  
+  /* Contenedor del formulario */
+  .form-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Contenido del formulario con los botones */
+  .form-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  /* Botones arriba del formulario */
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .findings-button,
+  .reload-button {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .findings-button {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .reload-button {
+    background-color: #28a745;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Imagen extra arriba del formulario */
+  .extra-image {
+    width: 250px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos del formulario */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
