@@ -1,57 +1,150 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import Header from "./Header";
 import Button from "./Button";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import '../css/scan.css'
+import '../css/scan.css';
 
 
-function Scan(){
+function Scan(props){
+
+    const [userInput, setUserInput] = useState({
+        name: "",
+        id: "",
+        lastSeen: "",
+        image: null
+    });
+    
+    function handleChange(event) {
+        const { name, value } = event.target;
+        setUserInput(prevInput => ({
+          ...prevInput,
+          [name]: value,
+        }));
+    }
+
+    /*Escoger foto */
+    const fileInputRef = useRef(null);
+  
+    function handleBrowseClick() {
+        fileInputRef.current.click();
+    };
+ 
+    function handleFileChange(event){
+        const file = event.target.files[0]; 
+        if (file) {
+            setUserInput((prevInput) => ({
+                ...prevInput,
+                image: file
+            }));
+        }
+    };
+
+    /*Tomar foto */
+    const videoRef = useRef(null);
+    const canvasRef = useRef(null);
+    const streamRef = useRef(null);
+
+    async function startCamera(event){
+        event.preventDefault();
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            streamRef.current = stream;
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+            }
+        } catch (error) {
+            console.error("Error al acceder a la camara:", error);
+        }
+    };
+
+    function takePhoto(event){
+        event.preventDefault();
+        const video = videoRef.current;
+        const canvas = canvasRef.current;
+
+        if (video && canvas) {
+            const context = canvas.getContext("2d");
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob((blob) => {
+                setUserInput((prevInput) => ({
+                    ...prevInput,
+                    image: blob 
+                }));
+            }, "image/png");
+
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach(track => track.stop());
+            }
+        }
+    };
+
+      
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        console.log("Enviando a App.jsx:", userInput);
+        props.onSearch(userInput);
+    }
+
     return(
         <div>
             <Header/>
             <h1>Reconocimiento facial diseñado para identificar personas desaparecidas</h1>
-            <main className="main-scan">
+            <form onSubmit={handleSubmit} className="main-scan">
 
                 <div className="drag-drop">
-                    <IoCloudUploadOutline size={130} color="gray"/>
+                    <IoCloudUploadOutline size={130} color="gray" />
+                    {userInput.image ? (
+                        <img 
+                            src={URL.createObjectURL(userInput.image)} 
+                            alt="Preview" 
+                            style={{ width: "250px", height: "250px", objectFit: "cover" }} 
+                        />
+                    ) : (
+                        <>
+                            <h3>Drag and drop files here</h3>
+                            <span>or</span>
+                        </>
+                    )}
 
-                    <h3>Drag and drop files here</h3>
-                    <span>or</span>
-
-                    <button>Browse Files</button>
+                    <input type="file" accept="image/*" hidden ref={fileInputRef} onChange={handleFileChange} />
+                    <button type="button" onClick={handleBrowseClick}>Browse Files</button>
                 </div>
 
                 <div className="form">
                     <div>
                         <label htmlFor="nombre">Nombre:</label>
-                        <input type="text" id="nombre" />
-                    </div>
+                        <input type="text" onChange={handleChange} value={userInput.name} name="name" id="nombre" />
+                    </div> 
                     
                     <div>
                         <label htmlFor="ID">ID:</label>
-                        <input type="text" id="ID" />
+                        <input type="text" onChange={handleChange} value={userInput.id} name="id" id="ID" />
                     </div>
                     
                     <div>
-                        <label htmlFor="lastSeen">Último lugar:</label>
-                        <input type="text" id="lastSeen"/>
-                    </div>
+                        <label htmlFor="lastSeen">Último vez visto:</label>
+                        <input type="text" onChange={handleChange} value={userInput.lastSeen} name="lastSeen" id="lastSeen"/>
+                    </div> 
                 </div>
 
 
                 <div className="sub-buttons">
                     <div className="top-buttons">
-                        <button className="bottom-buttons">Escoger foto <img src="images/pictures.svg" alt="escoger" /></button>
-                        <button className="bottom-buttons">Tomar foto <img src="images/camera.svg" alt="tomar" /> </button>
+                        <button onClick={startCamera} className="bottom-buttons">Activar Cámara</button>
+                        <video ref={videoRef} autoPlay playsInline style={{ display: "none" }}></video>
+                        <canvas ref={canvasRef} width={640} height={480} style={{ display: "none" }}></canvas>
+                        <button onClick={takePhoto} className="bottom-buttons">Tomar foto <img src="images/camera.svg" alt="tomar" /> </button>
                     </div>
                     
                     <div className="search-button">
-                        <Button name="Search"/>
+                        <button type="submit" className="switch-page-button">Search</button>
                     </div>
                 </div>
 
 
-            </main>
+            </form>
         </div>
     );
 };
