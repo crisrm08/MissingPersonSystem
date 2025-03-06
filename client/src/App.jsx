@@ -14,9 +14,19 @@ function App() {
 
   function onSearch(userInput) {
     setLoading(true);
-    axios.post("http://localhost:5000/search", userInput)
+
+    const formData = new FormData();
+    formData.append("name", userInput.name);
+    formData.append("id", userInput.id);
+    formData.append("lastSeen", userInput.lastSeen);
+    formData.append("image", userInput.image);
+
+    axios.post("http://localhost:5000/search", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data"
+    }})
       .then(() => {
-        setScreen("Results");
+        //setScreen("Results");
       })
       .catch((error) => console.error("Error al buscar la persona: ", error))
   }
