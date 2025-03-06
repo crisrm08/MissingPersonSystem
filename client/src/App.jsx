@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Home from "./components/Home";
 import Scan from "./components/Scan";
+import Results from "./components/Results";
 import axios from "axios"
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
         "Content-Type": "multipart/form-data"
     }})
       .then(() => {
-        //setScreen("Results");
+        setScreen("Results");
       })
       .catch((error) => console.error("Error al buscar la persona: ", error))
   }
@@ -39,7 +40,7 @@ function App() {
     <div className="App">
       {screen === "Home" && <Home onStart={onStart} />}
       {screen === "Scan" && <Scan onSearch={onSearch} />}
-      {/*{screen === "Results" && <Results onBack={onBack} />}*/} {/*Comentado hasta que Kendrick cree la pantalla de Results*/}
+      {screen === "Results" && <Results onBack={onBack} />} {/*Comentado hasta que Kendrick cree la pantalla de Results*/}
     </div>
   );
 }
