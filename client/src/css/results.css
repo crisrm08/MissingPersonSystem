@@ -68,7 +68,6 @@
     justify-content: center;
   }
   
-  /* Imagen extra arriba del formulario */
   .extra-image {
     width: 250px;
     height: auto;
@@ -76,8 +75,7 @@
     margin-bottom: 15px;
   }
   
-  /* Estilos del formulario */
-  .form {
+  .form-results {
     display: flex;
     flex-direction: column;
     gap: 15px;
