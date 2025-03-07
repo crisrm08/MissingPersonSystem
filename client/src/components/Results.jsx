@@ -5,7 +5,13 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 import '../css/results.css';
 import { FaSyncAlt } from "react-icons/fa"; // Importamos el icono de recarga
 
-function Results() {
+function Results(props) {
+
+    function handleReturn(event) {
+      props.onBack();
+      console.log("going back to scan screen");
+    }
+
     return (
       <div>
         <Header />
@@ -23,7 +29,7 @@ function Results() {
               {/* Botones arriba */}
               <div className="button-group">
                 <button className="findings-button">Hallazgos</button>
-                <button className="reload-button">
+                <button className="reload-button" onClick={handleReturn}>
                   <FaSyncAlt />
                 </button>
               </div>

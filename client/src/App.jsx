@@ -33,14 +33,14 @@ function App() {
   }
 
   function onBack() {
-    setScreen("Home");
+    setScreen("Scan");
   }
 
   return (
     <div className="App">
       {screen === "Home" && <Home onStart={onStart} />}
       {screen === "Scan" && <Scan onSearch={onSearch} />}
-      {screen === "Results" && <Results onBack={onBack} />} {/*Comentado hasta que Kendrick cree la pantalla de Results*/}
+      {screen === "Results" && <Results onBack={onBack} />} 
     </div>
   );
 }
