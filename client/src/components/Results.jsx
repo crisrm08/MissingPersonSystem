@@ -32,7 +32,7 @@ function Results() {
               <img src="URL_DE_LA_IMAGEN_EXTRA" alt="Resultados" className="extra-image" />
   
               {/* Formulario */}
-              <div className="form">
+              <div className="form-results">
                 <div>
                   <label htmlFor="nombre">Nombre:</label>
                   <input type="text" id="nombre" />
