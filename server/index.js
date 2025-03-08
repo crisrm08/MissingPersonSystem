@@ -11,6 +11,15 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
+const db = new pg.Client({
+    user: process.env.PG_USER,
+    host: process.env.PG_HOST,
+    database: process.env.PG_DATABASE, 
+    password: process.env.PG_PASSWORD,
+    port: process.env.PG_PORT,
+});
+db.connect();
+
 const upload = multer({ storage: multer.memoryStorage() });
 app.post("/search", upload.single("image"), (req, res) => {
     console.log(req.body.name);

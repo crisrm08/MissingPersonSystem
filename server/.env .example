@@ -1,0 +1,5 @@
+PG_USER="usuario"
+PG_HOST="host de la base de datos"
+PG_DATABASE="nombre"
+PG_PASSWORD="constrase;a"
+PG_PORT="puerto"
