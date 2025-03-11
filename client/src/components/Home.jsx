@@ -10,12 +10,14 @@ function Home(props){
             <Header/>
             <main className="home-main">
                 <img src="/images/homeIMG.svg" alt="homeIMG" />
-                <Button onNext={props.onStart} name="Start Scan"/>
-
                 <p>
                     Este proyecto es un sistema de reconocimiento facial <br /> diseñado para identificar personas desaparecidas o <br /> buscadas mediante
                     una aplicación web.
                 </p>
+                <div className="buttons-container">
+                    <Button onNext={props.onStart} name="Start Scan"/>
+                    <Button onNext={props.onRegister} name="Registrar desaparecido"/>
+                </div>
             </main>
     
         </div>

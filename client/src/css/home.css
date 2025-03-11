@@ -8,3 +8,9 @@
 .home-main img{
     height: 300px;
 }
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
