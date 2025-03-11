@@ -16,6 +16,7 @@ function App() {
   function onRegister() {
     setScreen("Save");
   }
+
   function onSearch(userInput) {
 
     const formData = new FormData();
@@ -29,9 +30,10 @@ function App() {
         "Content-Type": "multipart/form-data"
     }})
       .then(() => {
-        setScreen("Results");
+       
       })
-      .catch((error) => console.error("Error al buscar la persona: ", error))
+      .catch((error) => console.error("Error al buscar la persona: ", error));
+      setScreen("Results");
   }
 
   function onBack() {
