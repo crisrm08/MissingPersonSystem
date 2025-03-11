@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const pg = require('pg');
-const multer = require('multer')
+const multer = require('multer');
+const { v2: cloudinary } = require('cloudinary');
 
 require('dotenv').config();
 const app = express();
@@ -14,20 +15,58 @@ app.use(express.json());
 const db = new pg.Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE, 
+    database: process.env.PG_DATABASE,
     password: process.env.PG_PASSWORD,
     port: process.env.PG_PORT,
 });
 db.connect();
 
-const upload = multer({ storage: multer.memoryStorage() });
-app.post("/search", upload.single("image"), (req, res) => {
-    console.log(req.body.name);
-    console.log(req.body.id);
-    console.log(req.body.lastSeen);
-    console.log(req.file); 
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
 
-    res.send({ message: "Datos recibidos correctamente" });
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Ruta para recibir imagen, subirla a Cloudinary y guardar la URL en PostgreSQL
+app.post("/search", upload.single("image"), async (req, res) => {
+    try {
+        console.log(req.body.name, req.body.id, req.body.lastSeen);
+        console.log(req.file);
+
+        if (!req.file) {
+            return res.status(400).json({ error: "No image uploaded" });
+        }
+
+        cloudinary.uploader.upload_stream(
+            { folder: "missing_persons" }, 
+            async (error, result) => {
+                if (error) {
+                    console.error("Error al subir imagen:", error);
+                    return res.status(500).json({ error: "Image upload failed" });
+                }
+
+                console.log("Imagen subida:", result.secure_url); 
+
+                const { name, id, lastSeen } = req.body;
+                try {
+                    const dbResult = await db.query(
+                        "INSERT INTO missing_persons (name, id, last_seen, image_url) VALUES ($1, $2, $3, $4) RETURNING *",
+                        [name, id, lastSeen, result.secure_url]
+                    );
+
+                    res.json({ message: "Data saved", data: dbResult.rows[0] });
+                } catch (dbError) {
+                    console.error("Error al insertar en PostgreSQL:", dbError);
+                    res.status(500).json({ error: "Database error" });
+                }
+            }
+        ).end(req.file.buffer); 
+    } catch (error) {
+        console.error("Error en el servidor:", error);
+        res.status(500).json({ error: "Server error" });
+    }
 });
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
