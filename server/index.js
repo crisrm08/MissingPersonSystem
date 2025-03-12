@@ -30,7 +30,7 @@ cloudinary.config({
 const upload = multer({ storage: multer.memoryStorage() });
 
 // Ruta para recibir imagen, subirla a Cloudinary y guardar la URL en PostgreSQL
-app.post("/search", upload.single("image"), async (req, res) => {
+app.post("/save", upload.single("image"), async (req, res) => {
     try {
         console.log(req.body.name, req.body.id, req.body.lastSeen);
         console.log(req.file);
@@ -66,6 +66,21 @@ app.post("/search", upload.single("image"), async (req, res) => {
     } catch (error) {
         console.error("Error en el servidor:", error);
         res.status(500).json({ error: "Server error" });
+    }
+});
+
+app.post("/search", upload.single("image"), async (req, res) => {
+    typedName = req.body.name;
+    typedId = req.body.id;
+    typedLastSeen = req.body.lastSeen;
+    uploadedImage = req.file;
+
+    try {
+        const result = await db.query("SELECT * FROM missing_persons WHERE name ILIKE $1 OR id = $2 OR last_seen ILIKE $3",
+            [typedName + '%', typedId, '%' + typedLastSeen + '%']);
+        console.log(result.rows[0]);
+    } catch (error) {
+        console.error(error);
     }
 });
 

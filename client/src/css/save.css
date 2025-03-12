@@ -1,0 +1,91 @@
+html{
+    overflow: hidden;
+}
+
+.main-save{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    gap: 50px;
+    justify-content: space-evenly;
+}
+
+#h1-save{
+    margin-bottom: 50px;
+}
+
+/*************************************************************FORM STYLES *******************************************************/
+.form-save {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    flex-basis: 100%;
+    justify-content: center;
+    gap: 10px; 
+    width: 35%;
+    left: 200px;
+}
+
+.form-save label {
+    display: inline-block;
+    width: 150px;  
+    text-align: left; 
+    font-size: larger;
+}
+
+.form-save input {
+    display: inline-block;
+    width: 300px; 
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+}
+
+.form-save div {
+    display: flex;
+    align-items: center; 
+    gap: 10px; 
+}
+
+/*************************************************************Buttons Styles *******************************************************/
+.sub-buttons-save {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-right: 200px;
+}
+
+.top-buttons-save {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+}
+
+
+.bottom-buttons-save{
+    font-size: larger;
+    display: flex;
+    align-items: center;
+    background-color: #5C94D9;
+    border-radius: 15px;
+    border: none;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.bottom-buttons-save img{
+    margin-left: 10px;
+    width: 30px;
+}
+
+.search-button-save {
+    display: flex;
+    justify-content: center; 
+    font-size: larger;
+}
+
+
+
