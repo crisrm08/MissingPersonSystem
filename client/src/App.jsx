@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Home from "./components/Home";
 import Scan from "./components/Scan";
 import Save from "./components/Save";
@@ -7,6 +7,12 @@ import axios from "axios"
 
 function App() {
   const [screen, setScreen] = useState("Home");
+  const [resultData, setResultData] = useState("");
+  
+  /*useEffect(() => {
+    console.log("Datos persona encontrada:", resultData);
+  }, [resultData])*/
+
   const error = "No se ha encontrado ninguna persona con tales características";
 
   function onStart() {
@@ -29,11 +35,11 @@ function App() {
       headers: {
         "Content-Type": "multipart/form-data"
     }})
-      .then(() => {
-       
+      .then((res) =>  {
+        setResultData(res.data)
+        setScreen("Results");
       })
       .catch((error) => console.error("Error al buscar la persona: ", error));
-      setScreen("Results");
   }
 
   function onBack() {
@@ -62,7 +68,7 @@ function App() {
       {screen === "Home" && <Home onStart={onStart} onRegister={onRegister}/>}
       {screen === "Save" && <Save onSave={onSave}/>}
       {screen === "Scan" && <Scan onSearch={onSearch} />}
-      {screen === "Results" && <Results onBack={onBack} />} 
+      {screen === "Results" && <Results onBack={onBack} data={resultData}/>} 
     </div>
   );
 }

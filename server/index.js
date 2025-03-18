@@ -124,7 +124,7 @@ app.post("/save", upload.single("image"), async (req, res) => {
     }
 });
 
-//Ruta para comparar la persona subida con los desaparecidos registrados.
+// Ruta para comparar la persona subida con los desaparecidos registrados.
 app.post("/search", upload.single("image"), async (req, res) => {
     const typedName = req.body.name;
     const typedId = req.body.id;
@@ -143,9 +143,11 @@ app.post("/search", upload.single("image"), async (req, res) => {
 
         let bestMatch = null;
         let highestConfidence = 0;
+        let uploadedImageUrl = null;
 
         // 🔹 2. Si el usuario subió una imagen, comparar con las imágenes almacenadas
         if (uploadedImage) {
+            uploadedImageUrl = `data:${uploadedImage.mimetype};base64,${uploadedImage.buffer.toString("base64")}`;
             const uploadedTensor = await imageToTensor(uploadedImage.buffer); // Convierte la imagen subida en un tensor
 
             for (let person of matches) {
@@ -160,7 +162,7 @@ app.post("/search", upload.single("image"), async (req, res) => {
 
                 if (similarity > highestConfidence) {
                     highestConfidence = similarity;
-                    bestMatch = person;
+                    bestMatch = { ...person, uploadedImageUrl }; // Agregar la imagen subida al mejor match
                 }
             }
         }
@@ -170,7 +172,7 @@ app.post("/search", upload.single("image"), async (req, res) => {
             console.log(bestMatch);
             res.json({ bestMatch });
         } else {
-            res.json({ message: "No se encontraron coincidencias con la imagen.", results: matches });
+            res.json({ message: "No se encontraron coincidencias con la imagen.", results: matches, uploadedImageUrl });
         }
 
     } catch (error) {
