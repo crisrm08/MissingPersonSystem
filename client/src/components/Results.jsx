@@ -12,9 +12,6 @@ function Results(props) {
       console.log("going back to scan screen");
     }
 
-    console.log(props.data.bestMatch.name);
-     
-
     return (
       <div>
         <Header />
