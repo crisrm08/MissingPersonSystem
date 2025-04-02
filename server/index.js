@@ -148,21 +148,20 @@ app.post("/search", upload.single("image"), async (req, res) => {
         // 🔹 2. Si el usuario subió una imagen, comparar con las imágenes almacenadas
         if (uploadedImage) {
             uploadedImageUrl = `data:${uploadedImage.mimetype};base64,${uploadedImage.buffer.toString("base64")}`;
-            const uploadedTensor = await imageToTensor(uploadedImage.buffer); // Convierte la imagen subida en un tensor
+            const uploadedTensor = await imageToTensor(uploadedImage.buffer);
 
             for (let person of matches) {
-                const cloudinaryImageUrl = person.image_url; // URL de la imagen en Cloudinary
+                const cloudinaryImageUrl = person.image_url;
 
-                // Descargar la imagen de Cloudinary y convertirla en un tensor
                 const storedTensor = await downloadImageAsTensor(cloudinaryImageUrl);
 
-                // Comparar embeddings faciales
+                // Comparar las imágenes
                 const similarity = await compareFaces(uploadedTensor, storedTensor);
-                person.matchConfidence = similarity; // Guardar el nivel de similitud
+                person.matchConfidence = similarity;
 
                 if (similarity > highestConfidence) {
                     highestConfidence = similarity;
-                    bestMatch = { ...person, uploadedImageUrl }; // Agregar la imagen subida al mejor match
+                    bestMatch = { ...person, uploadedImageUrl };
                 }
             }
         }
@@ -174,7 +173,7 @@ app.post("/search", upload.single("image"), async (req, res) => {
         } else {
             res.json({ message: "No se encontraron coincidencias con la imagen.", results: matches, uploadedImageUrl });
         }
-
+        
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Error en la búsqueda" });

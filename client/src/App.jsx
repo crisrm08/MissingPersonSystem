@@ -34,12 +34,20 @@ function App() {
     axios.post("http://localhost:5000/search", formData, {
       headers: {
         "Content-Type": "multipart/form-data"
-    }})
-      .then((res) =>  {
-        setResultData(res.data)
+      }
+    })
+    .then((res) => {
+      if (res.data.message) {
+        alert(res.data.message); // Muestra el pop-up si no hay coincidencias
+      } else {
+        setResultData(res.data);
         setScreen("Results");
-      })
-      .catch((error) => console.error("Error al buscar la persona: ", error));
+      }
+    })
+    .catch((error) => {
+      console.error("Error al buscar la persona: ", error);
+      alert("Hubo un error en la búsqueda. Inténtalo de nuevo.");
+    });
   }
 
   function onBack() {
